@@ -180,12 +180,13 @@ class CalendarroState extends State<Calendarro> {
           widget.endDate) + 1;
     }
 
+
+
     pageView = PageView.builder(
       itemBuilder: (context, position) => _buildCalendarPage(position),
       itemCount: pagesCount,
       controller: PageController(
-          initialPage:
-          selectedSingleDate != null ? widget.getPageForDate(selectedSingleDate) : 0),
+          initialPage: pagesCount - 1),
       onPageChanged: (page) {
         if (widget.onPageSelected != null) {
           DateRange pageDateRange = _calculatePageDateRange(page);
@@ -196,13 +197,13 @@ class CalendarroState extends State<Calendarro> {
 
     double widgetHeight;
     if (widget.displayMode == DisplayMode.WEEKS) {
-      widgetHeight = widget.dayLabelHeight + widget.dayTileHeight;
+      widgetHeight = widget.dayLabelHeight + widget.dayTileHeight + 82;
     } else {
       var maxWeeksNumber = DateUtils.calculateMaxWeeksNumberMonthly(
           widget.startDate,
           widget.endDate);
       widgetHeight = widget.dayLabelHeight
-          + maxWeeksNumber * widget.dayTileHeight;
+          + maxWeeksNumber * widget.dayTileHeight + 82;
     }
 
     return Container(
@@ -257,11 +258,102 @@ class CalendarroState extends State<Calendarro> {
     setState(() {});
   }
 
+
+
   Widget _buildCalendarPage(int position) {
     if (widget.displayMode == DisplayMode.WEEKS) {
       return _buildCalendarPageInWeeksMode(position);
     } else {
-      return _buildCalendarPageInMonthsMode(position);
+
+      DateRange pageDateRange = _calculatePageDateRange(position);
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: 10
+              ),
+              Text('${getNameMonth(pageDateRange.startDate.month)} ${pageDateRange.startDate.year}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+              Expanded(
+                  child: SizedBox()
+              ),
+              GestureDetector(
+                onTap: () {
+                  pageView.controller.previousPage(duration: Duration(milliseconds: 250), curve: Curves.ease);
+                },
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  child: Center(
+                      child: Icon(Icons.keyboard_arrow_left, color: Color.fromRGBO(40, 150, 140, 1.0),)
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withAlpha(70),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              GestureDetector(
+                onTap: () {
+                  pageView.controller.nextPage(duration: Duration(milliseconds: 250), curve: Curves.ease);
+                },
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  child: Center(
+                      child: Icon(Icons.keyboard_arrow_right, color: Color.fromRGBO(40, 150, 140, 1.0),)
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withAlpha(70),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          _buildCalendarPageInMonthsMode(position),
+        ],
+      );
+
+
+    }
+  }
+
+  String getNameMonth(int month) {
+    switch (month) {
+      case 1:
+        return 'Janeiro';
+      case 2:
+        return 'Fevereiro';
+      case 3:
+        return 'Março';
+      case 4:
+        return 'Abril';
+      case 5:
+        return 'Maio';
+      case 6:
+        return 'Junho';
+      case 7:
+        return 'Julho';
+      case 8:
+        return 'Agosto';
+      case 9:
+        return 'Setembro';
+      case 10:
+        return 'Outubro';
+      case 11:
+        return 'Novembro';
+      case 12:
+        return 'Dezembro';
+        break;
+      default:
+        return '';
     }
   }
 
@@ -282,6 +374,8 @@ class CalendarroState extends State<Calendarro> {
       pageEndDate: pageDateRange.endDate,
       weekdayLabelsRow: widget.weekdayLabelsRow,
     );
+
+
   }
 
   DateRange _calculatePageDateRange(int pagePosition) {
