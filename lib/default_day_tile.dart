@@ -20,27 +20,39 @@ class CalendarroDayItem extends StatelessWidget {
 
     BoxDecoration boxDecoration;
     if (daySelected) {
-      boxDecoration = BoxDecoration(color: Colors.blue, shape: BoxShape.circle);
+      boxDecoration = BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xff6ad3ca), Color(0xff44aaa1)]),
+          shape: BoxShape.circle
+      );
     } else if (isToday) {
       boxDecoration = BoxDecoration(
           border: Border.all(
-            color: Colors.white,
-            width: 1.0,
+            color: Colors.grey,
+            width: 2.0,
           ),
           shape: BoxShape.circle);
     }
 
     return Expanded(
         child: GestureDetector(
-          child: Container(
-              height: 40.0,
-              decoration: boxDecoration,
-              child: Center(
-                  child: Text(
-                    "${date.day}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: textColor),
-                  ))),
+          child:
+
+          Container(
+            color: Colors.white,
+            child: Container(
+                height: 40.0,
+                decoration: boxDecoration,
+                child: Center(
+                    child: Text(
+                      "${date.day}",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: daySelected ? Colors.white : textColor),
+                    ))),
+          ),
+
           onTap: handleTap,
           behavior: HitTestBehavior.translucent,
         ));
