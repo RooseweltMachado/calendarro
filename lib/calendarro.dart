@@ -275,7 +275,7 @@ class CalendarroState extends State<Calendarro> {
               SizedBox(
                 width: 10
               ),
-              Text('${getNameMonth(pageDateRange.startDate.month)} ${pageDateRange.startDate.year}', style: TextStyle(fontWeight: FontWeight.bold, , fontSize: 16, color: Color(0xff005c6b)),),
+              Text('${getNameMonth(pageDateRange.startDate.month)} ${pageDateRange.startDate.year}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xff005c6b)),),
               Expanded(
                   child: SizedBox()
               ),
