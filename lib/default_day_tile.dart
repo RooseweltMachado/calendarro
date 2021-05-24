@@ -25,7 +25,7 @@ class CalendarroDayItem extends StatelessWidget {
     } else if (isToday) {
       boxDecoration = BoxDecoration(
         border: Border.all(
-          color: Color(0xff44aaa1),
+          color: Colors.grey[350],
           width: 2.0,
         ),
         shape: BoxShape.circle,
@@ -47,16 +47,14 @@ class CalendarroDayItem extends StatelessWidget {
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30),
                         ),
-                  color: containSelectd()
-                      ? Color.fromRGBO(99, 101, 105, 1.0)
-                      : Colors.white,
+                  color: containSelectd() ? Colors.grey[350] : Colors.white,
                 )
               : BoxDecoration(
                   color: containSelectd()
                       ? calendarroState.selectedDates.first ==
                               calendarroState.selectedDates.last
                           ? Colors.white
-                          : Color.fromRGBO(99, 101, 105, 1.0)
+                          : Colors.grey[350]
                       : Colors.white,
                 ),
           child: Container(
