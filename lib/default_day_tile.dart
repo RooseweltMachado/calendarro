@@ -56,7 +56,7 @@ class CalendarroDayItem extends StatelessWidget {
                       ? calendarroState.selectedDates.first ==
                               calendarroState.selectedDates.last
                           ? Colors.white
-                          : Colors.green.withAlpha(30)
+                          : Color.fromRGBO(99, 101, 105, 1.0)
                       : Colors.white,
                 ),
           child: Container(
