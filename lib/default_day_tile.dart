@@ -21,77 +21,89 @@ class CalendarroDayItem extends StatelessWidget {
     BoxDecoration boxDecoration;
     if (daySelected) {
       boxDecoration = BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xff6ad3ca), Color(0xff44aaa1)],
-          ),
-          shape: BoxShape.circle
-      );
+          color: Color.fromRGBO(84, 200, 232, 1.0), shape: BoxShape.circle);
     } else if (isToday) {
       boxDecoration = BoxDecoration(
-          border: Border.all(
-            color: Color(0xff44aaa1),
-            width: 2.0,
-          ),
-          shape: BoxShape.circle,
+        border: Border.all(
+          color: Color(0xff44aaa1),
+          width: 2.0,
+        ),
+        shape: BoxShape.circle,
       );
     }
 
     return Expanded(
-        child: GestureDetector(
-          child: Container(
-            decoration: isRangeDay() && calendarroState.selectedDates.first != calendarroState.selectedDates.last ? BoxDecoration(
-                borderRadius: date == calendarroState.selectedDates.first ? BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)) : BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30),),
-                color: containSelectd() ? Colors.green.withAlpha(30) : Colors.white,
-            ) : BoxDecoration(
-              color: containSelectd() ? calendarroState.selectedDates.first == calendarroState.selectedDates.last ? Colors.white : Colors.green.withAlpha(30) : Colors.white,
-            ),
-            child: Container(
-                height: 40.0,
-                decoration: isRangeDay() ?
-                boxDecoration : null,
-                child: Center(
-                    child: Text(
-                      "${date.day}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: isRangeDay() ? Colors.white : textColor),
-                    ),
+      child: GestureDetector(
+        child: Container(
+          decoration: isRangeDay() &&
+                  calendarroState.selectedDates.first !=
+                      calendarroState.selectedDates.last
+              ? BoxDecoration(
+                  borderRadius: date == calendarroState.selectedDates.first
+                      ? BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          bottomLeft: Radius.circular(30))
+                      : BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                        ),
+                  color: containSelectd()
+                      ? Colors.green.withAlpha(30)
+                      : Colors.white,
+                )
+              : BoxDecoration(
+                  color: containSelectd()
+                      ? calendarroState.selectedDates.first ==
+                              calendarroState.selectedDates.last
+                          ? Colors.white
+                          : Colors.green.withAlpha(30)
+                      : Colors.white,
                 ),
+          child: Container(
+            height: 40.0,
+            decoration: isRangeDay() ? boxDecoration : null,
+            child: Center(
+              child: Text(
+                "${date.day}",
+                textAlign: TextAlign.center,
+                style:
+                    TextStyle(color: isRangeDay() ? Colors.white : textColor),
+              ),
             ),
           ),
-          onTap: handleTap,
-          behavior: HitTestBehavior.translucent,
         ),
+        onTap: handleTap,
+        behavior: HitTestBehavior.translucent,
+      ),
     );
   }
 
-  bool isRangeDay(){
-    if(calendarroState.selectedDates.isNotEmpty){
-      if(date == calendarroState.selectedDates.first ||
-      date == calendarroState.selectedDates.last){
+  bool isRangeDay() {
+    if (calendarroState.selectedDates.isNotEmpty) {
+      if (date == calendarroState.selectedDates.first ||
+          date == calendarroState.selectedDates.last) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }else{
+    } else {
       return false;
     }
   }
 
-  bool containSelectd(){
-    if(calendarroState.selectedDates.length > 1){
-      if(date == calendarroState.selectedDates.first || date ==
-          calendarroState.selectedDates.last){
+  bool containSelectd() {
+    if (calendarroState.selectedDates.length > 1) {
+      if (date == calendarroState.selectedDates.first ||
+          date == calendarroState.selectedDates.last) {
         return true;
       }
-      if(date.isAfter(calendarroState.selectedDates.first) &&
-          date.isBefore(calendarroState.selectedDates.last)){
+      if (date.isAfter(calendarroState.selectedDates.first) &&
+          date.isBefore(calendarroState.selectedDates.last)) {
         return true;
-      }else{
+      } else {
         return false;
       }
-    }else{
+    } else {
       return false;
     }
   }

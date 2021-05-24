@@ -83,8 +83,7 @@ class Calendarro extends StatefulWidget {
   @override
   CalendarroState createState() {
     state = CalendarroState(
-        selectedSingleDate: selectedSingleDate,
-        selectedDates: selectedDates);
+        selectedSingleDate: selectedSingleDate, selectedDates: selectedDates);
     return state;
   }
 
@@ -102,9 +101,7 @@ class Calendarro extends StatefulWidget {
 
   int getPositionOfDate(DateTime date) {
     int daysDifference =
-        date
-            .difference(DateUtils.toMidnight(startDate))
-            .inDays;
+        date.difference(DateUtils.toMidnight(startDate)).inDays;
     int weekendsDifference = ((daysDifference + startDate.weekday) / 7).toInt();
     var position = daysDifference - weekendsDifference * 2;
     return position;
@@ -112,9 +109,7 @@ class Calendarro extends StatefulWidget {
 
   int getPageForDate(DateTime date) {
     if (displayMode == DisplayMode.WEEKS) {
-      int daysDifferenceFromStartDate = date
-          .difference(startDate)
-          .inDays;
+      int daysDifferenceFromStartDate = date.difference(startDate).inDays;
       int page = (daysDifferenceFromStartDate + startDayOffset) ~/ 7;
       return page;
     } else {
@@ -132,10 +127,7 @@ class CalendarroState extends State<Calendarro> {
   int pagesCount;
   PageView pageView;
 
-  CalendarroState({
-    this.selectedSingleDate,
-    this.selectedDates
-  });
+  CalendarroState({this.selectedSingleDate, this.selectedDates});
 
   @override
   void initState() {
@@ -176,17 +168,14 @@ class CalendarroState extends State<Calendarro> {
       pagesCount = lastPage + 1;
     } else {
       pagesCount = DateUtils.calculateMonthsDifference(
-          widget.startDate,
-          widget.endDate) + 1;
+              widget.startDate, widget.endDate) +
+          1;
     }
-
-
 
     pageView = PageView.builder(
       itemBuilder: (context, position) => _buildCalendarPage(position),
       itemCount: pagesCount,
-      controller: PageController(
-          initialPage: pagesCount - 1),
+      controller: PageController(initialPage: pagesCount - 1),
       onPageChanged: (page) {
         if (widget.onPageSelected != null) {
           DateRange pageDateRange = _calculatePageDateRange(page);
@@ -200,15 +189,12 @@ class CalendarroState extends State<Calendarro> {
       widgetHeight = widget.dayLabelHeight + widget.dayTileHeight + 82;
     } else {
       var maxWeeksNumber = DateUtils.calculateMaxWeeksNumberMonthly(
-          widget.startDate,
-          widget.endDate);
-      widgetHeight = widget.dayLabelHeight
-          + maxWeeksNumber * widget.dayTileHeight + 82;
+          widget.startDate, widget.endDate);
+      widgetHeight =
+          widget.dayLabelHeight + maxWeeksNumber * widget.dayTileHeight + 82;
     }
 
-    return Container(
-        height: widgetHeight,
-        child: pageView);
+    return Container(height: widgetHeight, child: pageView);
   }
 
   bool isDateSelected(DateTime date) {
@@ -217,10 +203,9 @@ class CalendarroState extends State<Calendarro> {
         return DateUtils.isSameDay(selectedSingleDate, date);
         break;
       case SelectionMode.MULTI:
-        final matchedSelectedDate = selectedDates.firstWhere((currentDate) =>
-            DateUtils.isSameDay(currentDate, date),
-            orElse: () => null
-        );
+        final matchedSelectedDate = selectedDates.firstWhere(
+            (currentDate) => DateUtils.isSameDay(currentDate, date),
+            orElse: () => null);
 
         return matchedSelectedDate != null;
         break;
@@ -231,11 +216,11 @@ class CalendarroState extends State<Calendarro> {
           case 1:
             return DateUtils.isSameDay(selectedDates[0], date);
           default:
-            var dateBetweenDatesRange = (date.isAfter(selectedDates[0])
-                && date.isBefore(selectedDates[1]));
-            return DateUtils.isSameDay(date, selectedDates[0])
-              || DateUtils.isSameDay(date, selectedDates[1])
-              || dateBetweenDatesRange;
+            var dateBetweenDatesRange = (date.isAfter(selectedDates[0]) &&
+                date.isBefore(selectedDates[1]));
+            return DateUtils.isSameDay(date, selectedDates[0]) ||
+                DateUtils.isSameDay(date, selectedDates[1]) ||
+                dateBetweenDatesRange;
         }
         break;
     }
@@ -258,13 +243,10 @@ class CalendarroState extends State<Calendarro> {
     setState(() {});
   }
 
-
-
   Widget _buildCalendarPage(int position) {
     if (widget.displayMode == DisplayMode.WEEKS) {
       return _buildCalendarPageInWeeksMode(position);
     } else {
-
       DateRange pageDateRange = _calculatePageDateRange(position);
 
       return Column(
@@ -272,23 +254,29 @@ class CalendarroState extends State<Calendarro> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              SizedBox(
-                width: 10
+              SizedBox(width: 10),
+              Text(
+                '${getNameMonth(pageDateRange.startDate.month)} ${pageDateRange.startDate.year}',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Color.fromRGBO(84, 200, 232, 1.0)),
               ),
-              Text('${getNameMonth(pageDateRange.startDate.month)} ${pageDateRange.startDate.year}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xff005c6b)),),
-              Expanded(
-                  child: SizedBox()
-              ),
+              Expanded(child: SizedBox()),
               GestureDetector(
                 onTap: () {
-                  pageView.controller.previousPage(duration: Duration(milliseconds: 250), curve: Curves.ease);
+                  pageView.controller.previousPage(
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.ease);
                 },
                 child: Container(
                   width: 30,
                   height: 30,
                   child: Center(
-                      child: Icon(Icons.keyboard_arrow_left, color: Color.fromRGBO(40, 150, 140, 1.0),)
-                  ),
+                      child: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: Color.fromRGBO(84, 200, 232, 1.0),
+                  )),
                   decoration: BoxDecoration(
                     color: Colors.grey.withAlpha(70),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -300,14 +288,18 @@ class CalendarroState extends State<Calendarro> {
               ),
               GestureDetector(
                 onTap: () {
-                  pageView.controller.nextPage(duration: Duration(milliseconds: 250), curve: Curves.ease);
+                  pageView.controller.nextPage(
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.ease);
                 },
                 child: Container(
                   width: 30,
                   height: 30,
                   child: Center(
-                      child: Icon(Icons.keyboard_arrow_right, color: Color.fromRGBO(40, 150, 140, 1.0),)
-                  ),
+                      child: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Color.fromRGBO(84, 200, 232, 1.0),
+                  )),
                   decoration: BoxDecoration(
                     color: Colors.grey.withAlpha(70),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -320,8 +312,6 @@ class CalendarroState extends State<Calendarro> {
           _buildCalendarPageInMonthsMode(position),
         ],
       );
-
-
     }
   }
 
@@ -374,8 +364,6 @@ class CalendarroState extends State<Calendarro> {
       pageEndDate: pageDateRange.endDate,
       weekdayLabelsRow: widget.weekdayLabelsRow,
     );
-
-
   }
 
   DateRange _calculatePageDateRange(int pagePosition) {
@@ -402,9 +390,8 @@ class CalendarroState extends State<Calendarro> {
       pageStartDate = DateUtils.getFirstDayOfMonth(widget.endDate);
       pageEndDate = widget.endDate;
     } else {
-      DateTime firstDateOfCurrentMonth = DateUtils.addMonths(
-          widget.startDate,
-          pagePosition);
+      DateTime firstDateOfCurrentMonth =
+          DateUtils.addMonths(widget.startDate, pagePosition);
       pageStartDate = firstDateOfCurrentMonth;
       pageEndDate = DateUtils.getLastDayOfMonth(firstDateOfCurrentMonth);
     }
@@ -457,10 +444,9 @@ class CalendarroState extends State<Calendarro> {
   }
 
   void _setMultiSelectedDate(DateTime date) {
-    final alreadyExistingDate = selectedDates.firstWhere((currentDate) =>
-        DateUtils.isSameDay(currentDate, date),
-        orElse: () => null
-    );
+    final alreadyExistingDate = selectedDates.firstWhere(
+        (currentDate) => DateUtils.isSameDay(currentDate, date),
+        orElse: () => null);
 
     if (alreadyExistingDate != null) {
       selectedDates.remove(alreadyExistingDate);
